@@ -4,6 +4,8 @@ fname = 'mnist';
 fprintf('loading data from %s.mat\n', fname);
 load(fname);
 
+
+RandStream.setGlobalStream(RandStream('mt19937ar','seed',sum(100*clock)))
 %% do a bit of dimensionality reduction
 
 [N D] = size(trainX);

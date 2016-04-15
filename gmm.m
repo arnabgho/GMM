@@ -9,6 +9,8 @@ function [mu,pk,z,si2,CLL,ILL,BIC] = gmm(X,K)
 % of the incomplete log likelihoods. BIC is the Bayesian Information
 % Criterion (smaller BIC is better)
   
+RandStream.setGlobalStream(RandStream('mt19937ar','seed',sum(100*clock)))
+
 [N D] = size(X);
 
 if K >= N,
@@ -49,6 +51,7 @@ for iter=1:numIter,
       den=den+z(n,k);
     end;
     z(n,:)=z(n,:)/den;
+    z(n,:)=log(z(n,:));
     % turn log probabilities into actual probabilities
     maxZ   = max(z(n,:));
     z(n,:) = exp(z(n,:) - maxZ - log(sum(exp(z(n,:) - maxZ))));
